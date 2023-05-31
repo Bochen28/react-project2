@@ -1,0 +1,19 @@
+footer {
+  position: absolute;
+  height: 7.5%;
+  width: 100%;
+  bottom: 0%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #666666;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+footer p {
+  margin: 0;
+  color: #313131;
+  font-size: 0.8rem;
+  font-weight: bolder;
+}
