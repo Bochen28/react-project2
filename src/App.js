@@ -9,9 +9,7 @@ function App() {
     <>
       <Header />
       <Loader />
-      <main>
-        <Form />
-      </main>
+      <Form />
       <Footer />
     </>
   );

@@ -1,8 +1,8 @@
-import "./Header.module.css";
+import styles from "./Header.module.css";
 
 function Header() {
   return (
-    <header>
+    <header className={styles.header}>
       <h1>Przelicznik Walut</h1>
     </header>
   );

@@ -11,9 +11,3 @@ html {
   font-family: "Helvetica", sans-serif;
   background: #f7f7f7;
 }
-
-main {
-  display: flex;
-  justify-content: center;
-  margin: 2rem;
-}

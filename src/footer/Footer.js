@@ -1,9 +1,9 @@
-import "./Footer.module.css";
+import styles from "./Footer.module.css";
 
 function Footer() {
   return (
-    <footer>
-      <p>made by Patryk Bochenek</p>
+    <footer className={styles.footer}>
+      <p className={styles.footerP}>made by Patryk Bochenek</p>
     </footer>
   );
 }

@@ -8,23 +8,26 @@ function Form() {
   }, []);
 
   return (
+    <div className={styles.content}>
     <div className={styles.form}>
-      <label id="amountLabel" for="amount">
+      <label id="amountLabel" className={styles.amountLabel} for="amount">
         Wprowadź poprawną kwotę
       </label>
       <br />
       <input
         type="number"
         id="amount"
+        className={styles.amount}
         name="amount"
         placeholder="Wpisz kwotę"
       />
-      <select id="currency"></select>
-      <button id="convert">Przelicz</button>
+      <select id="currency" className={styles.selectCurr}></select>
+      <button id="convert" className={styles.button}>Przelicz</button>
       <h4>Na złotówki (PLN)</h4>
       <div className={styles.result}>
-        <p id="result">Kwota</p>
+        <p id="result" className={styles.result}>Kwota</p>
       </div>
+    </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const initializeForm = () => {
-  const nbpLink = "http://api.nbp.pl/api/exchangerates/tables/a/";
+  const nbpLink = "https://api.nbp.pl/api/exchangerates/tables/a/";
   const loader = document.querySelector("#loader");
   const selectField = document.querySelector("#currency");
   const convertButton = document.querySelector("#convert");
@@ -16,7 +16,15 @@ const initializeForm = () => {
     await axios
       .get(nbpLink)
       .then((response) => {
-        nbpData = response.data[0].rates;
+        if (
+          Array.isArray(response.data) &&
+          response.data.length > 0 &&
+          response.data[0].rates
+        ) {
+          nbpData = response.data[0].rates;
+        } else {
+          alert("Wystąpił problem po stronie serwera");
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -25,40 +33,39 @@ const initializeForm = () => {
 
   const createCurrencyOptions = async () => {
     await fetchNbpData();
-    nbpData.forEach((element) => {
-      const newOption = document.createElement("option");
-      const code = element.code;
-      const currencyToCapitalize = element.currency;
-      const currency =
-        currencyToCapitalize.charAt(0).toUpperCase() +
-        currencyToCapitalize.slice(1);
-      exchangeRates[code] = element.mid;
-      newOption.textContent = currency;
-      newOption.value = element.code;
-      selectField.appendChild(newOption);
-    });
+
+    if (nbpData && Array.isArray(nbpData)) {
+      nbpData.forEach((element) => {
+        const newOption = document.createElement("option");
+        const code = element.code;
+        const currencyToCapitalize = element.currency;
+        const currency =
+          currencyToCapitalize.charAt(0).toUpperCase() +
+          currencyToCapitalize.slice(1);
+        exchangeRates[code] = element.mid;
+        newOption.textContent = currency;
+        newOption.value = element.code;
+        selectField.appendChild(newOption);
+      });
+    } else {
+      alert("Wystąpił problem po stronie serwera");
+    }
 
     loader.style.display = "none";
   };
 
   const convertToPln = () => {
-    if (amount.value === "") {
+    if (amount.value <= 0) {
       amountLabel.style.display = "inline";
     } else {
       amountLabel.style.display = "none";
       const exchangeCode = selectField.value;
       resultText.textContent =
-        (amount.value * exchangeRates[exchangeCode]).toFixed(2) + "zł";
+        (amount.value * exchangeRates[exchangeCode]).toFixed(2) + " zł";
     }
   };
 
-  const clearValues = () => {
-    amount.value = "";
-    resultText.textContent = "Kwota";
-  };
-
   convertButton.addEventListener("click", convertToPln);
-  selectField.addEventListener("change", clearValues);
   createCurrencyOptions();
 };
 
