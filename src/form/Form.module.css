@@ -25,8 +25,7 @@ input::-webkit-inner-spin-button {
   border-radius: 5px;
 }
 
-.amountLabel {
-  display: none;
+.errorLabel {
   color: red;
   font-size: small;
 }
