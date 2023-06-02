@@ -27,7 +27,7 @@ function Form() {
   }, []);
 
   const handleExchange = () => {
-    if (inputValue === 0 || exchangeRates[selectValue] === undefined) {
+    if (inputValue <= 0  || exchangeRates[selectValue] === undefined) {
       setLabelDisplay("block");
     } else {
       setLabelDisplay("none");
