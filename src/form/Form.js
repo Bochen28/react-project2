@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Form.module.css";
 import Loader from "../loader/Loader";
-import  {fetchNbpData, exchangeRates} from "../services/dataFetch";
+import { fetchNbpData, exchangeRates } from "../services/dataFetch";
 
 function Form() {
   const [fetchedData, setFetchedData] = useState([]);
@@ -27,7 +27,7 @@ function Form() {
   }, []);
 
   const handleExchange = () => {
-    if (inputValue <= 0  || exchangeRates[selectValue] === undefined) {
+    if (inputValue <= 0 || exchangeRates[selectValue] === undefined) {
       setLabelDisplay("block");
     } else {
       setLabelDisplay("none");
