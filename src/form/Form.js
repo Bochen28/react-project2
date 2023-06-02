@@ -20,7 +20,6 @@ function Form() {
         })
         .catch((error) => {
           alert(error.message);
-          setIsLoading(false);
         });
     };
     fetchData();
