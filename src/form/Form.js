@@ -6,60 +6,57 @@ import { fetchNbpData, exchangeRates } from "../services/dataFetch";
 function Form() {
   const [fetchedData, setFetchedData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [labelDisplay, setLabelDisplay] = useState("none");
-  const [inputValue, setInputValue] = useState(0);
-  const [selectValue, setSelectValue] = useState(0);
+  const [shouldShowError, setShouldShowError] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [currency, setCurrency] = useState(0);
   const [result, setResult] = useState("Kwota");
 
   useEffect(() => {
-    const fetchData = () => {
-      fetchNbpData()
-        .then((data) => {
-          setFetchedData(data[0].rates);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    };
-    fetchData();
+    fetchNbpData()
+      .then((data) => {
+        setFetchedData(data[0].rates);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   }, []);
 
   const handleExchange = () => {
-    if (inputValue <= 0 || exchangeRates[selectValue] === undefined) {
-      setLabelDisplay("block");
+    if (amount <= 0 || exchangeRates[currency] === undefined) {
+      setShouldShowError(true);
     } else {
-      setLabelDisplay("none");
-      setResult(`${(inputValue * exchangeRates[selectValue]).toFixed(2)} zł`);
+      setShouldShowError(false);
+      setResult(`${(amount * exchangeRates[currency]).toFixed(2)} zł`);
     }
   };
 
   if (isLoading) {
     return <Loader />;
   }
+
   return (
     <div className={styles.content}>
       <div className={styles.form}>
-        <label
-          id="errorLabel"
-          className={styles.errorLabel}
-          htmlFor="amount"
-          style={{ display: labelDisplay }}
-        >
-          Wprowadź poprawną kwotę i wybierz walutę
-        </label>
+        {shouldShowError && (
+          <div>
+            <p className={styles.errorMessage}>
+              Wprowadź poprawną kwotę i wybierz walutę
+            </p>
+          </div>
+        )}
         <input
           type="number"
           id="amount"
           className={styles.amount}
           name="amount"
           placeholder="Wpisz kwotę"
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => setAmount(e.target.value)}
         />
         <select
           id="currency"
           className={styles.selectCurr}
-          onChange={(e) => setSelectValue(e.target.value)}
+          onChange={(e) => setCurrency(e.target.value)}
         >
           <option>Wybierz walutę</option>
           {fetchedData.map((element) => (
